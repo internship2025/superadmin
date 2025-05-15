@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/superadmin.iml" filepath="$PROJECT_DIR$/.idea/superadmin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/admin-universea.iml" filepath="$PROJECT_DIR$/.idea/admin-universea.iml" />
     </modules>
   </component>
 </project>
