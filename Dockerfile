@@ -10,7 +10,7 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 #Билдим приложение
 #Кэширование зависимостей — если файлы в проекте изменились,
-#но package.json остался неизменным, то стейдж с установкой зависимостей повторно не выполняется, что экономит время.
+ё#но package.json остался неизменным, то стейдж с установкой зависимостей повторно не выполняется, что экономит время.
 FROM node:20.11-alpine as builder
 WORKDIR /app
 
@@ -21,8 +21,8 @@ RUN npm install -g pnpm
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 
-# Запускаем билд в production-режиме
-RUN pnpm run build:production
+# Запускаем билд
+RUN pnpm run build
 
 #Стейдж запуска
 FROM node:20.11-alpine as runner
@@ -36,4 +36,4 @@ COPY --from=builder /app/ ./
 EXPOSE 3000
 
 # 📌 Если есть standalone-сервер → запускаем его, иначе → next start
-CMD ["sh", "-c", "if [ -f server.js ]; then node server.js; else node node_modules/next/dist/bin/next start; fi"]
+ёCMD ["sh", "-c", "if [ -f server.js ]; then node server.js; else node node_modules/next/dist/bin/next start; fi"]
