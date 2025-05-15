@@ -14,17 +14,15 @@ RUN npm install -g pnpm && pnpm install --frozen-lockfile
 FROM node:20.11-alpine as builder
 WORKDIR /app
 
-# Устанавливаем pnpm в билдере, чтобы была возможность запустить билд
+# Устанавливаем pnpm в билдере
 RUN npm install -g pnpm
 
 # Копируем весь проект и зависимости из предыдущего этапа
 COPY .. .
 COPY --from=dependencies /app/node_modules ./node_modules
 
-
 # Запускаем билд в production-режиме
 RUN pnpm run build:production
-
 
 #Стейдж запуска
 FROM node:20.11-alpine as runner
