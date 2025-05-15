@@ -18,7 +18,7 @@ WORKDIR /app
 RUN npm install -g pnpm
 
 # Копируем весь проект и зависимости из предыдущего этапа
-COPY .. .
+COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
 
 # Запускаем билд в production-режиме
