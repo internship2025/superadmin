@@ -1,22 +1,39 @@
 #Устанавливаем зависимости
 FROM node:20.11-alpine as dependencies
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+
+# Копируем package.json и lock-файл
+COPY package.json pnpm-lock.yaml ./
+
+# Устанавливаем pnpm и зависимости проекта
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
 
 #Билдим приложение
 #Кэширование зависимостей — если файлы в проекте изменились,
 #но package.json остался неизменным, то стейдж с установкой зависимостей повторно не выполняется, что экономит время.
 FROM node:20.11-alpine as builder
 WORKDIR /app
+
+# Устанавливаем pnpm в билдере
+RUN npm install -g pnpm
+
+# Копируем весь проект и зависимости из предыдущего этапа
 COPY . .
 COPY --from=dependencies /app/node_modules ./node_modules
-RUN npm run build:production
+
+# Запускаем билд
+RUN pnpm run build
 
 #Стейдж запуска
 FROM node:20.11-alpine as runner
 WORKDIR /app
 ENV NODE_ENV production
+
+# Копируем всё приложение из builder-стадии
 COPY --from=builder /app/ ./
+
+# Открываем порт, на котором будет работать приложение
 EXPOSE 3000
-CMD ["npm", "start"]
+
+# 📌 Если есть standalone-сервер → запускаем его, иначе → next start
+CMD ["sh", "-c", "if [ -f server.js ]; then node server.js; else node node_modules/next/dist/bin/next start; fi"]
