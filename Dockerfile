@@ -23,7 +23,7 @@ COPY --from=dependencies /app/node_modules ./node_modules
 
 
 # Запускаем билд в production-режиме
-RUN pnpm run build:production
+RUN pnpm run build
 
 
 #Стейдж запуска
