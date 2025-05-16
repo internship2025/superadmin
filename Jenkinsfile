@@ -5,11 +5,11 @@ pipeline {
     environment {
         ENV_TYPE = "production"
         PORT = 3735
-        NAMESPACE = "admin.universea-ru"
+        NAMESPACE = "admin-universea-ru"
         REGISTRY_HOSTNAME = "internship2025"
         REGISTRY = "registry.hub.docker.com"
-        PROJECT = "admin.universea"
-        DEPLOYMENT_NAME = "admin.universea-deployment"
+        PROJECT = "universea-admin"
+        DEPLOYMENT_NAME = "admin-universea-deployment"
         IMAGE_NAME = "${env.BUILD_ID}_${env.ENV_TYPE}_${env.GIT_COMMIT}"
         DOCKER_BUILD_NAME = "${env.REGISTRY_HOSTNAME}/${env.PROJECT}:${env.IMAGE_NAME}"
     }
@@ -48,7 +48,7 @@ pipeline {
              steps {
                  echo "Push image started..."
                      script {
-                          docker.withRegistry("https://${env.REGISTRY}", 'admin.universea-ru') {
+                          docker.withRegistry("https://${env.REGISTRY}", 'admin-universea-ru') {
                             app.push("${env.IMAGE_NAME}")
                         }
                      }
