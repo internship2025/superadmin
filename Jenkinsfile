@@ -4,7 +4,7 @@ pipeline {
     agent any
     environment {
         ENV_TYPE = "production"
-        PORT = 3735
+        PORT = 3883 
         NAMESPACE = "admin-universea-ru"
         REGISTRY_HOSTNAME = "internship2025"
         REGISTRY = "registry.hub.docker.com"
