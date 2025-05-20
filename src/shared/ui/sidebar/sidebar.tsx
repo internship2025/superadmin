@@ -145,7 +145,7 @@ export const Sidebar: FC<SidebarProps> = ({ isAuthenticated = true }) => {
                     />
                   </span>
                   {item.component || (
-                      <span className={styles.label}>{item.label}</span>
+                    <span className={styles.label}>{item.label}</span>
                   )}
                 </Link>
               )}

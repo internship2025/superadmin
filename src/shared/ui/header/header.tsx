@@ -57,7 +57,13 @@ export const Header = ({ onLangChange }: HeaderProps) => {
   return (
     <header id="header" className={styles.header}>
       <div className={styles.container}>
-        <Link href={userData ? PATH.PROFILE.replace(":id", userData.userId.toString()) : PATH.ROOT}>
+        <Link
+          href={
+            userData
+              ? PATH.PROFILE.replace(":id", userData.userId.toString())
+              : PATH.ROOT
+          }
+        >
           <Typography variant={"h1"}>Inctagram</Typography>
         </Link>
         {isFetching ? (

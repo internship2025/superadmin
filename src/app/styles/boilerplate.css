@@ -26,7 +26,7 @@ option {
 
 a {
   text-decoration: none;
-  color: inherit
+  color: inherit;
 }
 
 a:visited {
@@ -40,5 +40,4 @@ body {
   line-height: var(--line-height-m);
   color: var(--color-light-100);
   background-color: var(--color-dark-900);
-
 }

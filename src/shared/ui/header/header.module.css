@@ -108,7 +108,7 @@
   transition: transform 0.2s ease;
 }
 
-.selectTrigger[data-state='open'] .selectIcon {
+.selectTrigger[data-state="open"] .selectIcon {
   transform: rotate(180deg);
 }
 
