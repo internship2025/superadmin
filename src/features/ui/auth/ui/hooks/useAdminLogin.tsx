@@ -2,8 +2,7 @@ import { useForm } from "react-hook-form";
 import { AdminLoginType, adminLoginSchema } from "@/features/ui/auth/ui/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { PATH } from "@/shared/constants";
+import { useAdminAuth } from "./useAdminAuth";
 
 const ADMIN_CREDENTIALS = {
   email: "admin@admin.com",
@@ -11,8 +10,8 @@ const ADMIN_CREDENTIALS = {
 };
 
 export const useAdminLogin = () => {
-  const router = useRouter();
   const [errorMessage, setErrorMessage] = useState("");
+  const { login } = useAdminAuth();
 
   const {
     register,
@@ -28,8 +27,7 @@ export const useAdminLogin = () => {
       data.email === ADMIN_CREDENTIALS.email &&
       data.password === ADMIN_CREDENTIALS.password
     ) {
-      localStorage.setItem("adminAuth", "true");
-      router.push(PATH.ROOT);
+      login();
     } else {
       setErrorMessage("Invalid data");
     }

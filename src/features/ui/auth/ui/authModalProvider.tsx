@@ -1,25 +1,21 @@
 "use client";
 
-import { useEffect } from "react";
-import { useAdminAuth } from "@/features/ui/auth/ui/hooks/useAdminAuth";
+import { useEffect, useState } from "react";
 import { AdminLoginModal } from "@/features/ui/auth/ui/adminLoginModal";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { PATH } from "@/shared/constants";
 
 export const AuthModalProvider = () => {
-  const { isAuthenticated } = useAdminAuth();
-  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isAuthenticated && pathname !== PATH.LOGIN) {
-      router.replace(PATH.LOGIN);
-    }
-  }, [isAuthenticated, router, pathname]);
+    // Показываем модалку только на странице логина
+    setIsOpen(pathname === PATH.LOGIN);
+  }, [pathname]);
 
-  // Показываем модалку только на странице auth и когда не авторизованы
-  if (!isAuthenticated && pathname === PATH.LOGIN) {
-    return <AdminLoginModal open={true} onClose={() => {}} />;
+  if (pathname === PATH.LOGIN) {
+    return <AdminLoginModal open={isOpen} onClose={() => setIsOpen(false)} />;
   }
 
   return null;

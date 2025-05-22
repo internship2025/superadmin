@@ -13,6 +13,12 @@ export const useAdminAuth = () => {
     setIsAuthenticated(!!auth);
   }, []);
 
+  const login = () => {
+    localStorage.setItem("adminAuth", "true");
+    setIsAuthenticated(true);
+    router.push(PATH.ROOT);
+  };
+
   const logout = () => {
     localStorage.removeItem("adminAuth");
     setIsAuthenticated(false);
@@ -21,6 +27,7 @@ export const useAdminAuth = () => {
 
   return {
     isAuthenticated,
+    login,
     logout,
   };
 };
