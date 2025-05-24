@@ -1,4 +1,4 @@
-import { Input } from "@/shared/ui/input/input";
+import { Input } from "@/shared/ui/input/Input";
 import { Meta, StoryObj } from "@storybook/react";
 
 const meta: Meta<typeof Input> = {

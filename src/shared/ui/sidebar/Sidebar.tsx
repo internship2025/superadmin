@@ -2,7 +2,7 @@
 
 import { FC, useState } from "react";
 import Link from "next/link";
-import styles from "./sidebar.module.css";
+import styles from "./Sidebar.module.css";
 import { usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 import Logout from "@/features/auth/ui/logout/Logout";

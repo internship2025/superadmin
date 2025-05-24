@@ -1,17 +1,16 @@
 "use client";
 
 import * as Select from "@radix-ui/react-select";
-import styles from "./header.module.css";
+import styles from "./Header.module.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Button } from "@/shared/ui/button/button";
+import { Button } from "@/shared/ui/button/Button";
 import Link from "next/link";
-import { Typography } from "@/shared/ui/typography/typography";
 import { useAppDispatch } from "@/services/store";
 import { useMeQuery } from "@/features/auth/api/auth.api";
 import { setAuthenticated } from "@/features/auth/api/authSlice";
-import { NotificationBell } from "../notificationBell/NotificationBell";
 import { PATH } from "@/shared/constants";
+import { Typography } from "@/shared/ui/typography/Typography";
 
 const ChevronDownIcon = () => (
   <svg
@@ -37,8 +36,6 @@ interface HeaderProps {
 
 export const Header = ({ onLangChange }: HeaderProps) => {
   const [currentLang, setCurrentLang] = useState("English");
-
-  const { data: userData, isFetching } = useMeQuery();
 
   const dispatch = useAppDispatch();
 
@@ -70,7 +67,6 @@ export const Header = ({ onLangChange }: HeaderProps) => {
           <div>Loading</div>
         ) : (
           <div className={styles.rightSection}>
-            {userData && <NotificationBell />}
             <Select.Root
               value={currentLang}
               onValueChange={handleLangChange}

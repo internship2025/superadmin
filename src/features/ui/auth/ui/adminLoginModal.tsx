@@ -1,11 +1,12 @@
 "use client";
 
 import React from "react";
-import { Input } from "@/shared/ui/input/input";
+import { Input } from "@/shared/ui/input/Input";
 import styles from "./adminLoginModal.module.css";
-import { Button } from "@/shared/ui/button/button";
-import { useAdminLogin } from "@/features/ui/auth/ui/hooks/useAdminLogin";
-import { Modal } from "@/shared/ui/modal/modal";
+import { Button } from "@/shared/ui/button/Button";
+
+import { Modal } from "@/shared/ui/modal/Modal";
+import { useAdminAuth } from "@/features/ui/auth/ui/hooks/useAdminAuth";
 
 type Props = {
   open: boolean;
@@ -13,7 +14,7 @@ type Props = {
 };
 
 export const AdminLoginModal = ({ open, onClose }: Props) => {
-  const { register, handleLogin, errors, errorMessage } = useAdminLogin();
+  const { register, handleLogin, errors, errorMessage } = useAdminAuth();
 
   return (
     <>

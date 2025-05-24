@@ -4,8 +4,8 @@ import { Suspense } from "react";
 import { AuthModalProvider } from "@/features/ui/auth/ui/authModalProvider";
 
 export const metadata: Metadata = {
-  title: "Instagram",
-  description: "social network",
+  title: "Admin Panel",
+  description: "Admin panel for Universea",
 };
 
 export default function RootLayout({

@@ -1,5 +1,5 @@
 import { useAppSelector } from "@/services/store";
-import { Sidebar } from "@/shared/ui/sidebar/sidebar";
+import { Sidebar } from "@/shared/ui/sidebar/Sidebar";
 import { usePathname } from "next/navigation";
 
 export const SidebarWrapper = () => {

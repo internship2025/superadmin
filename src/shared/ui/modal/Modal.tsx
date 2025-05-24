@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import * as Dialog from "@radix-ui/react-dialog";
-import styles from "./modal.module.css";
+import styles from "./Modal.module.css";
 import Image from "next/image";
 // import close from "@/features/auth/ui/assets/close.svg";
 

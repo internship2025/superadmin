@@ -1,7 +1,7 @@
 "use client";
 
 import { ComponentProps, useState } from "react";
-import styles from "./input.module.css";
+import styles from "./Input.module.css";
 import EyeIcon from "@/shared/ui/input/components/EyeIcon";
 import Image from "next/image";
 import searchIco from "./assets/searchIco.svg";
