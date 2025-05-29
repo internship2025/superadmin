@@ -1,5 +1,5 @@
 import { JSX, ReactNode } from "react";
-import styles from "./typography.module.css";
+import styles from "./Typography.module.css";
 import { clsx } from "clsx";
 
 type TypographyProps = {

@@ -139,3 +139,8 @@
 .authButtons button {
   height: 36px;
 }
+
+.spanTypography {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-regular);
+}

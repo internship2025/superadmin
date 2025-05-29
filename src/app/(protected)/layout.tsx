@@ -1,6 +1,9 @@
 "use client";
 
 import { useAdminAuth } from "@/features/ui/auth/ui/hooks/useAdminAuth";
+import { Header } from "@/shared/ui/header/Header";
+import { Sidebar } from "@/shared/ui/sidebar/Sidebar";
+import styles from "./layout.module.css";
 
 export default function ProtectedLayout({
   children,
@@ -13,5 +16,14 @@ export default function ProtectedLayout({
   if (!isAuthenticated) {
     return null;
   }
-  return <>{children}</>;
+
+  return (
+    <div className={styles.layout}>
+      <Header />
+      <Sidebar />
+      <main className={styles.main}>
+        {children}
+      </main>
+    </div>
+  );
 }

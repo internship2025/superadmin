@@ -3,6 +3,9 @@ export const PATH = {
   USERS_LIST: "/users-list",
   ROOT: "/",
   LOGIN: "/auth",
+  STATISTICS: "/statistics",
+  PAYMENTS_LIST: "/payments-list",
+  POSTS_LIST: "/posts-list",
 } as const;
 
 export const baseUrl =

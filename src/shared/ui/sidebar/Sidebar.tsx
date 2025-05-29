@@ -1,16 +1,11 @@
 "use client";
 
-import { FC, useState } from "react";
+import { FC } from "react";
 import Link from "next/link";
 import styles from "./Sidebar.module.css";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import Image from "next/image";
-import Logout from "@/features/auth/ui/logout/Logout";
-import { useAppSelector } from "@/services/store";
-import { CreatePost } from "@/features/create-post/ui/createPost";
-import { useMeQuery } from "@/features/auth/api/auth.api";
 import { PATH } from "@/shared/constants";
-import { toast } from "react-toastify";
 
 interface NavItem {
   id: number;
@@ -25,95 +20,43 @@ interface SidebarProps {
   isAuthenticated?: boolean;
 }
 
-export const Sidebar: FC<SidebarProps> = ({ isAuthenticated = true }) => {
+export const Sidebar: FC<SidebarProps> = () => {
   const pathname = usePathname();
-  const userId = useAppSelector((state) => state.auth.userId);
-
-  const { data: getMeData } = useMeQuery();
-  const router = useRouter();
 
   const currentPath = pathname;
-  const [isCreatingPost, setIsCreatingPost] = useState<boolean>(false);
 
   const navItems: NavItem[] = [
     {
       id: 1,
-      label: "Home",
-      path: "/",
-      icon: "/icons/home-outline.svg",
+      label: "Users list",
+      path: PATH.USERS_LIST,
+      icon: "/icons/users-list.svg",
     },
     {
       id: 2,
-      label: "Create",
-      path: "/create",
-      icon: "/icons/create-outline.svg",
-      onClick: () => setIsCreatingPost(true),
+      label: "Statistics",
+      path: PATH.STATISTICS,
+      icon: "/icons/statistics.svg",
     },
     {
       id: 3,
-      label: "My Profile",
-      path: `/profile/${userId}`,
-      icon: "/icons/myProfile-outline.svg",
+      label: "Payments list",
+      path: PATH.PAYMENTS_LIST,
+      icon: "/icons/payments-list.svg",
     },
     {
       id: 4,
-      label: "Messages",
-      path: "/messages",
-      icon: "/icons/messenger-outline.svg",
-    },
-    {
-      id: 5,
-      label: "Search",
-      path: "/search",
-      icon: "/icons/search-outline.svg",
-    },
-    {
-      id: 6,
-      label: "Statistics",
-      path: "/statistics",
-      icon: "/icons/trending-up-outline.svg",
-    },
-    {
-      id: 7,
-      label: "Favorites",
-      path: "/favorites",
-      icon: "/icons/bookmark-outline.svg",
-    },
-    {
-      id: 8,
-      label: "Log Out",
-      path: "/logout",
-      icon: "/icons/logOut-outline.svg",
-      component: <Logout />,
+      label: "Posts list",
+      path: PATH.POSTS_LIST,
+      icon: "/icons/posts-list.svg",
     },
   ];
 
-  const authNavItems = navItems.filter(
-    (item) =>
-      isAuthenticated ||
-      (!isAuthenticated && ["/", "/search"].includes(item.path)),
-  );
-
-  const onPostPublished = () => {
-    setIsCreatingPost(false);
-    toast.success("Post has been published successfully");
-    if (getMeData?.userId) {
-      router.push(PATH.PROFILE.replace(":id", getMeData?.userId?.toString()));
-    }
-  };
-
   return (
     <aside className={styles.sidebar}>
-      {isCreatingPost && (
-        <CreatePost
-          onPostPublished={onPostPublished}
-          onOpenChange={setIsCreatingPost}
-          open={isCreatingPost}
-        />
-      )}
       <nav className={styles.nav}>
         <ul className={styles.navList}>
-          {authNavItems.map((item) => (
+          {navItems.map((item) => (
             <li key={item.id} className={styles.navItem}>
               {item.onClick ? (
                 <button
