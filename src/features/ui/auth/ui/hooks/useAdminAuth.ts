@@ -1,5 +1,8 @@
 "use client";
 
+import { useMutation } from "@apollo/client";
+import Cookies from "js-cookie";
+import { LOGIN_ADMIN } from "@/shared/api/mutations";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PATH } from "@/shared/constants";
@@ -13,6 +16,19 @@ export const useAdminAuth = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const router = useRouter();
 
+  const setAuth = (auth: string) => {
+    Cookies.set("auth", auth, { sameSite: "Strict" });
+  };
+
+  useEffect(() => {
+    const auth = Cookies.get("auth");
+
+    if (auth) {
+      setIsAuthenticated(true);
+      setIsLoading(false);
+    }
+  }, []);
+
   const {
     register,
     handleSubmit,
@@ -22,34 +38,35 @@ export const useAdminAuth = () => {
     mode: "onBlur",
   });
 
-  // Проверяем при монтировании
-  useEffect(() => {
-    setIsAuthenticated(localStorage.getItem("adminAuth") === "true");
-    setIsLoading(false);
-  }, []);
+  const [loginAdmin] = useMutation(LOGIN_ADMIN);
 
-  const handleLogin = handleSubmit((data) => {
-    if (data.email === "admin@admin.com" && data.password === "admin") {
-      localStorage.setItem("adminAuth", "true");
-      setIsAuthenticated(true);
-      router.push(PATH.USERS_LIST);
-      return true;
-    } else {
-      setErrorMessage("Invalid data");
+  const handleLogin = async (data: AdminLoginType) => {
+    try {
+      const { data: responseData } = await loginAdmin({
+        variables: {
+          email: data.email,
+          password: data.password,
+        },
+      });
+
+      if (responseData?.loginAdmin?.logged) {
+        const auth = btoa(`${data.email}:${data.password}`);
+
+        setAuth(auth);
+        setIsAuthenticated(true);
+        router.push(PATH.USERS_LIST);
+      } else {
+        setErrorMessage("Invalid data");
+      }
+    } catch (error) {
+      console.log(error);
     }
-  });
-
-  const handleLogout = () => {
-    localStorage.removeItem("adminAuth");
-    setIsAuthenticated(false);
-    router.push(PATH.LOGIN);
   };
 
   return {
     register,
     handleLogin,
     handleSubmit,
-    handleLogout,
     isAuthenticated,
     errors,
     errorMessage,

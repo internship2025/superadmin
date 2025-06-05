@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import "./globals.css";
 import { Suspense } from "react";
 import { AuthModalProvider } from "@/features/ui/auth/ui/authModalProvider";
+import { ApolloProvider } from "@apollo/client";
+import client from "@/lib/apolloClient";
 
 export const metadata: Metadata = {
   title: "Admin Panel",
@@ -16,10 +18,12 @@ export default function RootLayout({
   return (
     <html lang={"en"}>
       <body>
-        <Suspense>
-          <AuthModalProvider />
-        </Suspense>
-        {children}
+        <ApolloProvider client={client}>
+          <Suspense>
+            <AuthModalProvider />
+          </Suspense>
+          {children}
+        </ApolloProvider>
       </body>
     </html>
   );

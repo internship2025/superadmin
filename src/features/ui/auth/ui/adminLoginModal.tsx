@@ -4,7 +4,6 @@ import React from "react";
 import { Input } from "@/shared/ui/input/Input";
 import styles from "./adminLoginModal.module.css";
 import { Button } from "@/shared/ui/button/Button";
-
 import { Modal } from "@/shared/ui/modal/Modal";
 import { useAdminAuth } from "@/features/ui/auth/ui/hooks/useAdminAuth";
 
@@ -14,12 +13,13 @@ type Props = {
 };
 
 export const AdminLoginModal = ({ open, onClose }: Props) => {
-  const { register, handleLogin, errors, errorMessage } = useAdminAuth();
+  const { register, handleLogin, errors, errorMessage, handleSubmit } =
+    useAdminAuth();
 
   return (
     <>
       <Modal title={"Sign in"} open={open} onClose={onClose}>
-        <form onSubmit={handleLogin} className={styles.wrapper}>
+        <form onSubmit={handleSubmit(handleLogin)} className={styles.wrapper}>
           <div className={styles.inputWrapper}>
             <Input
               label={"Email"}
