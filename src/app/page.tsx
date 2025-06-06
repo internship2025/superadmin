@@ -21,6 +21,4 @@ export default function RootPage() {
   if (isLoading) {
     return <Spinner />;
   }
-
-  return <div>HI</div>;
 }

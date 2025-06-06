@@ -22,11 +22,8 @@ export const useAdminAuth = () => {
 
   useEffect(() => {
     const auth = Cookies.get("auth");
-
-    if (auth) {
-      setIsAuthenticated(true);
-      setIsLoading(false);
-    }
+    setIsAuthenticated(!!auth);
+    setIsLoading(false);
   }, []);
 
   const {
@@ -64,6 +61,7 @@ export const useAdminAuth = () => {
       }
     } catch (error) {
       console.log(error);
+      setErrorMessage("Something went wrong");
     }
   };
 
