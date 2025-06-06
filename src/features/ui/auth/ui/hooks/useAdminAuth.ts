@@ -42,6 +42,11 @@ export const useAdminAuth = () => {
 
   const handleLogin = async (data: AdminLoginType) => {
     try {
+      if (data.email !== "admin@gmail.com" || data.password !== "admin") {
+        setErrorMessage("Invalid credentials");
+        return;
+      }
+
       const { data: responseData } = await loginAdmin({
         variables: {
           email: data.email,
@@ -51,7 +56,6 @@ export const useAdminAuth = () => {
 
       if (responseData?.loginAdmin?.logged) {
         const auth = btoa(`${data.email}:${data.password}`);
-
         setAuth(auth);
         setIsAuthenticated(true);
         router.push(PATH.USERS_LIST);
