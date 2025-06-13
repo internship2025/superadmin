@@ -1,5 +1,11 @@
+import { UsersList } from "@/features/ui/usersList/ui/usersList";
+
 const UsersLists = () => {
-  return <></>;
+  return (
+    <>
+      <UsersList />
+    </>
+  );
 };
 
 export default UsersLists;
