@@ -17,5 +17,8 @@ export const useUsersFilters = () => {
     users: data?.getUsers.users ?? [],
     setItemsPerPage,
     setCurrentPage,
+    itemsPerPage,
+    currentPage,
+    totalItems: data?.getUsers.pagination.totalCount ?? 0
   };
 };

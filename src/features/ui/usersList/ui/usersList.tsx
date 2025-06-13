@@ -9,10 +9,7 @@ import { useUsersFilters } from "@/features/ui/usersList/ui/hooks/useUsersFilter
 import Image from "next/image";
 
 export const UsersList = () => {
-  const [rowsPerPage, setRowsPerPage] = useState(10);
-  const [page, setPage] = useState(1);
-
-  const { users } = useUsersFilters();
+  const { users, setItemsPerPage, setCurrentPage, itemsPerPage, currentPage, totalItems } = useUsersFilters();
 
   const options = [
     { value: "blocked", label: "Blocked" },
@@ -64,11 +61,11 @@ export const UsersList = () => {
         </tbody>
       </table>
       <Pagination
-        currentPage={page}
-        itemsPerPage={rowsPerPage}
-        totalItems={1}
-        onPageChange={setPage}
-        onItemsPerPageChange={setRowsPerPage}
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        onPageChange={setCurrentPage}
+        onItemsPerPageChange={setItemsPerPage}
       />
     </div>
   );
