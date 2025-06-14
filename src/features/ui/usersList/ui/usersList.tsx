@@ -7,6 +7,7 @@ import { Input } from "@/shared/ui/input/Input";
 import { SelectDemo } from "@/shared/ui/select/select";
 import { useUsersFilters } from "@/features/ui/usersList/ui/hooks/useUsersFilters";
 import Image from "next/image";
+import { SortArrows } from "./sortArrow/SortArrows";
 
 export const UsersList = () => {
   const [search, setSearch] = useState("");
@@ -17,6 +18,8 @@ export const UsersList = () => {
     itemsPerPage,
     currentPage,
     totalItems,
+    setSort,
+    sort,
   } = useUsersFilters(search);
 
   const options = [
@@ -44,9 +47,15 @@ export const UsersList = () => {
         <thead className={styles.thead}>
           <tr>
             <th className={styles.th}>User ID</th>
-            <th className={styles.th}>Username</th>
+            <th className={styles.th}>
+           <span className={styles.sortableHeader}>
+                Username <SortArrows  sort={sort} setSort = {setSort} filter={"userName"} />
+              </span>
+            </th>
             <th className={styles.th}>Profile link</th>
-            <th className={styles.th}>Date added</th>
+            <th className={styles.th}> <span className={styles.sortableHeader}>
+                Date added <SortArrows sort={sort} setSort = {setSort} filter={"createdAt"} />
+              </span></th>
             <th className={styles.th}></th>
           </tr>
         </thead>
