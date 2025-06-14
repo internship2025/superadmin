@@ -3,7 +3,7 @@
 import { useGetUsersQuery } from "@/shared/api/query.generated";
 import { useState } from "react";
 
-export const useUsersFilters = () => {
+export const useUsersFilters = (search: string) => {
   const [itemsPerPage, setItemsPerPage] = useState(8);
   const [currentPage, setCurrentPage] = useState(1);
   const { data } = useGetUsersQuery({
@@ -13,12 +13,20 @@ export const useUsersFilters = () => {
     },
   });
 
+  const users = data?.getUsers.users;
+
+  const filteredUsers = search
+    ? users?.filter((u) =>
+        u.userName.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
+      )
+    : users;
+
   return {
-    users: data?.getUsers.users ?? [],
+    users: filteredUsers ?? [],
     setItemsPerPage,
     setCurrentPage,
     itemsPerPage,
     currentPage,
-    totalItems: data?.getUsers.pagination.totalCount ?? 0
+    totalItems: data?.getUsers.pagination.totalCount ?? 0,
   };
 };

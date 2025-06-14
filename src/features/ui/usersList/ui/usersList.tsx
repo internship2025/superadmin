@@ -2,19 +2,31 @@
 
 import styles from "./usersList.module.css";
 import { Pagination } from "@/shared/ui/pagination/pagination";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { Input } from "@/shared/ui/input/Input";
 import { SelectDemo } from "@/shared/ui/select/select";
 import { useUsersFilters } from "@/features/ui/usersList/ui/hooks/useUsersFilters";
 import Image from "next/image";
 
 export const UsersList = () => {
-  const { users, setItemsPerPage, setCurrentPage, itemsPerPage, currentPage, totalItems } = useUsersFilters();
+  const [search, setSearch] = useState("");
+  const {
+    users,
+    setItemsPerPage,
+    setCurrentPage,
+    itemsPerPage,
+    currentPage,
+    totalItems,
+  } = useUsersFilters(search);
 
   const options = [
     { value: "blocked", label: "Blocked" },
     { value: "notBlocked", label: "Not Blocked" },
   ];
+
+  const handlerInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -24,6 +36,7 @@ export const UsersList = () => {
           placeholder={"Search"}
           className={styles.inputSearch}
           fullWidth={true}
+          onChange={(e) => handlerInputSearch(e)}
         />
         <SelectDemo options={options} placeholder={"Not selected"} />
       </div>
