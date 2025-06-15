@@ -1,4 +1,4 @@
-import { ComponentPropsWithoutRef, ElementType } from "react";
+import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 import styles from "./Button.module.css";
 import { clsx } from "clsx";
 import Link from "next/link";
@@ -18,6 +18,7 @@ export type ButtonProps<T extends ElementType = "button"> = {
   fullWidth?: boolean;
   variant?: ButtonVariant;
   href?: string;
+  startIcon?: ReactNode;
 } & ComponentPropsWithoutRef<T>;
 
 export const Button = <T extends ElementType = "button">(
@@ -29,6 +30,8 @@ export const Button = <T extends ElementType = "button">(
     fullWidth,
     variant = "primary",
     href,
+    startIcon,
+    children,
     ...rest
   } = props;
 
@@ -39,9 +42,16 @@ export const Button = <T extends ElementType = "button">(
     className,
   );
 
+  const content = (
+    <>
+      {startIcon && <span className={styles.startIcon}>{startIcon}</span>}
+      {children}
+    </>
+  );
+
   if (href) {
-    return <Link href={href} className={classNames} {...rest} />;
+    return <Link href={href} className={classNames} {...rest}>{content}</Link>;
   }
 
-  return <Component className={classNames} {...rest} />;
+  return <Component className={classNames} {...rest}>{content}</Component>;
 };

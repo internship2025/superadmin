@@ -5,7 +5,6 @@ import { ArrowUp } from "./Arrow-up";
 import { SortDirection } from "@/types";
 import { SortType } from "../hooks/useUsersFilters";
 
-
 type Props = {
   sort: SortType;
   filter: "createdAt" | "userName";
@@ -21,12 +20,10 @@ export const SortArrows = ({ sort, filter, setSort }: Props) => {
     }
   }, [sort.sortBy]);
 
-  const arrayArrow = [
+  let arrayArrowSort = [
     { id: "Asc", component: ArrowUp },
     { id: "Desc", component: ArrowDown },
   ];
-
-  let arrayArrowSort = arrayArrow;
 
   if (sortId !== "") {
     arrayArrowSort = arrayArrowSort.filter((it) => {
@@ -34,7 +31,7 @@ export const SortArrows = ({ sort, filter, setSort }: Props) => {
     });
   }
 
-  function handler(id: "Desc" | "Asc") {
+  function handlerSortUsers(id: "Desc" | "Asc") {
     if (sortId === id) {
       setSortId("");
       setSort({ sortDirection: SortDirection.Desc, sortBy: "createdAt" });
@@ -58,7 +55,7 @@ export const SortArrows = ({ sort, filter, setSort }: Props) => {
             aria-label={directionLabel}
             key={it.id}
             onClick={() => {
-              handler(it.id as "Desc" | "Asc");
+              handlerSortUsers(it.id as "Desc" | "Asc");
             }}
           />
         );
