@@ -77,15 +77,14 @@ export const UsersList = () => {
             <th className={styles.th}>User ID</th>
             <th className={styles.th}>
               <span className={styles.sortableHeader}>
-                Username{" "}
+                Username
                 <SortArrows sort={sort} setSort={setSort} filter={"userName"} />
               </span>
             </th>
             <th className={styles.th}>Profile link</th>
             <th className={styles.th}>
-              {" "}
               <span className={styles.sortableHeader}>
-                Date added{" "}
+                Date added
                 <SortArrows
                   sort={sort}
                   setSort={setSort}
