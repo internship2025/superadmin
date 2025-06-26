@@ -1,0 +1,8 @@
+
+import { ProfileUser } from "@/features/ui/profile/ProfileUser";
+
+
+export default async function Profile({ params }: { params:  Promise<{ id: string }> }) {
+  const { id } = await params
+  return <ProfileUser id = {id}/>;
+}
