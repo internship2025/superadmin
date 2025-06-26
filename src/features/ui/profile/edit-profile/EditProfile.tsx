@@ -1,5 +1,5 @@
 "use client";
-import { useParams, useSearchParams } from "next/navigation";
+import {useSearchParams } from "next/navigation";
 import { AccountTabs } from "./accountTabs/AccountTabs";
 import { Payments } from "../tabs/payments/Payments";
 import { Followers } from "../tabs/followers/Followers";

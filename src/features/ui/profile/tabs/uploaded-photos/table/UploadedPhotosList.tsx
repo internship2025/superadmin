@@ -11,7 +11,6 @@ interface UploadedPhotosListProps {
   loading: boolean;
   totalCount: number;
 }
-
 export const UploadedPhotosList = forwardRef<
   HTMLDivElement,
   UploadedPhotosListProps
