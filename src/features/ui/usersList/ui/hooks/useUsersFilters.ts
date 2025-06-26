@@ -20,7 +20,7 @@ export const useUsersFilters = (search: string) => {
     variables: {
       pageSize: itemsPerPage,
       pageNumber: currentPage,
-       ...sort,
+      ...sort,
     },
   });
 
@@ -28,7 +28,7 @@ export const useUsersFilters = (search: string) => {
 
   const filteredUsers = search
     ? users?.filter((u) =>
-        u.userName.toLocaleLowerCase().includes(search.toLocaleLowerCase())
+        u.userName.toLocaleLowerCase().includes(search.toLocaleLowerCase()),
       )
     : users;
 
@@ -43,5 +43,3 @@ export const useUsersFilters = (search: string) => {
     sort,
   };
 };
-
-

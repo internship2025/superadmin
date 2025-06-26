@@ -12,6 +12,7 @@ import BlockOutline from "@/assets/icons/components/BlockOutline";
 import MoreHorizontalOutline from "@/assets/icons/components/MoreHorizontalOutline";
 import { Dropdown } from "@/shared/ui/dropdown/dropdown";
 import { useRouter } from "next/navigation";
+import { useRemoveUserMutation } from "@/shared/api/mutations.generated";
 
 export const UsersList = () => {
   const [search, setSearch] = useState("");
@@ -29,10 +30,18 @@ export const UsersList = () => {
 
   const router = useRouter();
 
-  const handlerActionUser = (label: string, id: number) => {
+  const [removeUserMutation] = useRemoveUserMutation();
+
+  const handlerActionUser = async (label: string, id: number) => {
     if (label === "More Information") {
       router.push(`/profile/${id}`);
+    } else if (label === "Delete User") {
+      await removeUserMutation({ variables: { userId: id } });
     }
+  };
+
+  const handlerInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
   };
 
   const options = [
@@ -54,10 +63,6 @@ export const UsersList = () => {
       label: "More Information",
     },
   ];
-
-  const handlerInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
 
   return (
     <div className={styles.wrapper}>
