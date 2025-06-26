@@ -25,9 +25,9 @@ export const UserBasicInfo = ({ data }: { data: GetUserQuery | undefined }) => {
         <div className={s.userInfo}>
           <span
             className={s.name}
-          >{`${user?.profile.firstName} ${user?.profile.lastName}`}</span>
+          >{`${user?.profile.firstName ?? ''} ${user?.profile.lastName ?? ''}`}</span>
           <a href="#"
-          >{user?.userName}</a>
+          >{user?.userName ?? ''}</a>
         </div>
       </div>
       <div className={s.wrapper}>
