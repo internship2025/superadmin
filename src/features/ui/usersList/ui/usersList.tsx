@@ -12,9 +12,15 @@ import BlockOutline from "@/assets/icons/components/BlockOutline";
 import MoreHorizontalOutline from "@/assets/icons/components/MoreHorizontalOutline";
 import { Dropdown } from "@/shared/ui/dropdown/dropdown";
 import { useRouter } from "next/navigation";
+import { useRemoveUserMutation } from "@/shared/api/mutations.generated";
+import { Modal } from "@/shared/ui/modal/Modal";
+import { Button } from "@/shared/ui/button/Button";
+import { Typography } from "@/shared/ui/typography/Typography";
 
 export const UsersList = () => {
   const [search, setSearch] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
 
   const {
     users,
@@ -29,10 +35,19 @@ export const UsersList = () => {
 
   const router = useRouter();
 
-  const handlerActionUser = (label: string, id: number) => {
+  const [removeUserMutation] = useRemoveUserMutation();
+
+  const handlerActionUser = async (label: string, id: number) => {
     if (label === "More Information") {
       router.push(`/profile/${id}`);
+    } else if (label === "Delete User") {
+      setUserIdToDelete(id);
+      setShowConfirm(true);
     }
+  };
+
+  const handlerInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
   };
 
   const options = [
@@ -54,10 +69,6 @@ export const UsersList = () => {
       label: "More Information",
     },
   ];
-
-  const handlerInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  };
 
   return (
     <div className={styles.wrapper}>
@@ -123,6 +134,39 @@ export const UsersList = () => {
         onPageChange={setCurrentPage}
         onItemsPerPageChange={setItemsPerPage}
       />
+      {showConfirm && (
+        <Modal
+          className={styles.deleteUserModal}
+          title={"Delete user"}
+          onClose={() => setShowConfirm(false)}
+        >
+          <Typography className={styles.confirmText}>
+            {"Are you sure to delete user Ivan Ivanov?"}
+          </Typography>
+          <div className={styles.btnsContainer}>
+            <Button
+              className={styles.buttonNo}
+              onClick={() => setShowConfirm(false)}
+            >
+              No
+            </Button>
+            <Button
+              className={styles.buttonYes}
+              onClick={async () => {
+                if (userIdToDelete !== null) {
+                  await removeUserMutation({
+                    variables: { userId: userIdToDelete },
+                  });
+                }
+                setShowConfirm(false);
+              }}
+              variant={"outline"}
+            >
+              Yes
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

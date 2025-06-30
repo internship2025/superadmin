@@ -36,7 +36,9 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 24px 24px 0;
+
+  border-bottom: 1px solid var(--color-dark-100);
+  font-size: var(--font-size-xl);
 }
 
 .iconButton {
@@ -49,8 +51,9 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  margin-left: 16px; 
+  margin-left: 16px;
 }
+
 .notification {
   width: 320px;
   max-height: 440px;  

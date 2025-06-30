@@ -1,43 +1,42 @@
-import { useGetPostsLazyQuery, useGetPostsQuery } from "@/shared/api/query.generated";
-import { useEffect, useRef} from "react";
+import { useGetPostsLazyQuery } from "@/shared/api/query.generated";
+import { useEffect, useRef } from "react";
 
 export const useLazyPhotos = (userName: string | undefined) => {
   const observerRef = useRef(null);
 
-  const [fetchInitialPosts, { data, loading, fetchMore }] = useGetPostsLazyQuery({
-    fetchPolicy: 'network-only',
-  });
+  const [fetchInitialPosts, { data, loading, fetchMore }] =
+    useGetPostsLazyQuery({
+      fetchPolicy: "network-only",
+    });
 
-useEffect(() => {
+  useEffect(() => {
     if (userName) {
       fetchInitialPosts({
         variables: {
           searchTerm: userName,
           pageSize: 8,
-          endCursorPostId: 0
-        }
+          endCursorPostId: 0,
+        },
       });
     }
   }, [userName, fetchInitialPosts]);
 
-    useEffect(() => {
+  useEffect(() => {
     if (observerRef.current) {
-        console.log(observerRef.current)
+      console.log(observerRef.current);
       const observer = new IntersectionObserver(
         ([entry]) => {
           if (entry.isIntersecting && !loading) {
-            loadMore()
+            loadMore();
           }
         },
-        { threshold: 0.1}
+        { threshold: 0.1 },
       );
 
       observer.observe(observerRef.current);
       return () => observer.disconnect();
     }
   }, [loading, data]);
-
-
 
   const loadMore = () => {
     if (loading || !data?.getPosts?.items?.length) return;
@@ -58,6 +57,10 @@ useEffect(() => {
     });
   };
 
-
-  return { photos: data?.getPosts?.items || [], loading, observerRef, totalCount: data?.getPosts.totalCount || 0 };
+  return {
+    photos: data?.getPosts?.items || [],
+    loading,
+    observerRef,
+    totalCount: data?.getPosts.totalCount || 0,
+  };
 };
