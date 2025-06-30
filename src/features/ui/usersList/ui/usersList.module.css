@@ -37,5 +37,26 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  
+}
+
+.deleteUserModal {
+    padding: 12px 24px 24px 24px;
+}
+
+.buttonYes {
+    min-width: 130px;
+    margin-left: 70px;
+}
+
+.buttonNo {
+    min-width: 130px;
+}
+
+.btnsContainer {
+    display: flex;
+    margin-bottom: 12px;
+}
+
+.confirmText{
+    padding: 30px 50px 42px 0;
 }
