@@ -1,0 +1,57 @@
+import { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
+import styles from "./Button.module.css";
+import { clsx } from "clsx";
+import Link from "next/link";
+
+export const buttonVariant = [
+  "icon",
+  "primary",
+  "secondary",
+  "outline",
+  "text",
+] as const;
+
+export type ButtonVariant = (typeof buttonVariant)[number];
+
+export type ButtonProps<T extends ElementType = "button"> = {
+  as?: T;
+  fullWidth?: boolean;
+  variant?: ButtonVariant;
+  href?: string;
+  startIcon?: ReactNode;
+} & ComponentPropsWithoutRef<T>;
+
+export const Button = <T extends ElementType = "button">(
+  props: ButtonProps<T>,
+) => {
+  const {
+    as: Component = "button",
+    className,
+    fullWidth,
+    variant = "primary",
+    href,
+    startIcon,
+    children,
+    ...rest
+  } = props;
+
+  const classNames = clsx(
+    styles.button,
+    styles[variant],
+    fullWidth && styles.fullWidth,
+    className,
+  );
+
+  const content = (
+    <>
+      {startIcon && <span className={styles.startIcon}>{startIcon}</span>}
+      {children}
+    </>
+  );
+
+  if (href) {
+    return <Link href={href} className={classNames} {...rest}>{content}</Link>;
+  }
+
+  return <Component className={classNames} {...rest}>{content}</Component>;
+};

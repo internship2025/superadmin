@@ -1,0 +1,172 @@
+"use client";
+
+import styles from "./usersList.module.css";
+import { Pagination } from "@/shared/ui/pagination/pagination";
+import { ChangeEvent, useState } from "react";
+import { Input } from "@/shared/ui/input/Input";
+import { SelectDemo } from "@/shared/ui/select/select";
+import { useUsersFilters } from "@/features/ui/usersList/ui/hooks/useUsersFilters";
+import { SortArrows } from "./sortArrow/SortArrows";
+import PersonRemoveOutline from "@/assets/icons/components/PersonRemoveOutline";
+import BlockOutline from "@/assets/icons/components/BlockOutline";
+import MoreHorizontalOutline from "@/assets/icons/components/MoreHorizontalOutline";
+import { Dropdown } from "@/shared/ui/dropdown/dropdown";
+import { useRouter } from "next/navigation";
+import { useRemoveUserMutation } from "@/shared/api/mutations.generated";
+import { Modal } from "@/shared/ui/modal/Modal";
+import { Button } from "@/shared/ui/button/Button";
+import { Typography } from "@/shared/ui/typography/Typography";
+
+export const UsersList = () => {
+  const [search, setSearch] = useState("");
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [userIdToDelete, setUserIdToDelete] = useState<number | null>(null);
+
+  const {
+    users,
+    setItemsPerPage,
+    setCurrentPage,
+    itemsPerPage,
+    currentPage,
+    totalItems,
+    setSort,
+    sort,
+  } = useUsersFilters(search);
+
+  const router = useRouter();
+
+  const [removeUserMutation] = useRemoveUserMutation();
+
+  const handlerActionUser = async (label: string, id: number) => {
+    if (label === "More Information") {
+      router.push(`/profile/${id}`);
+    } else if (label === "Delete User") {
+      setUserIdToDelete(id);
+      setShowConfirm(true);
+    }
+  };
+
+  const handlerInputSearch = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+  };
+
+  const options = [
+    { value: "blocked", label: "Blocked" },
+    { value: "notBlocked", label: "Not Blocked" },
+  ];
+
+  const itemsForDropdown = [
+    {
+      icon: <PersonRemoveOutline />,
+      label: "Delete User",
+    },
+    {
+      icon: <BlockOutline />,
+      label: "Ban in the system",
+    },
+    {
+      icon: <MoreHorizontalOutline />,
+      label: "More Information",
+    },
+  ];
+
+  return (
+    <div className={styles.wrapper}>
+      <div className={styles.topContainer}>
+        <Input
+          type={"search"}
+          placeholder={"Search"}
+          className={styles.inputSearch}
+          fullWidth={true}
+          onChange={(e) => handlerInputSearch(e)}
+        />
+        <SelectDemo options={options} placeholder={"Not selected"} />
+      </div>
+      <table className={styles.table}>
+        <thead className={styles.thead}>
+          <tr>
+            <th className={styles.th}>User ID</th>
+            <th className={styles.th}>
+              <span className={styles.sortableHeader}>
+                Username
+                <SortArrows sort={sort} setSort={setSort} filter={"userName"} />
+              </span>
+            </th>
+            <th className={styles.th}>Profile link</th>
+            <th className={styles.th}>
+              <span className={styles.sortableHeader}>
+                Date added
+                <SortArrows
+                  sort={sort}
+                  setSort={setSort}
+                  filter={"createdAt"}
+                />
+              </span>
+            </th>
+            <th className={styles.th}></th>
+          </tr>
+        </thead>
+        <tbody className={styles.tableBody}>
+          {users.map((user) => {
+            return (
+              <tr className={styles.trTable} key={user.id}>
+                <td>{user.id}</td>
+                <td>{user.userName}</td>
+                <td>
+                  <span title={user.email}>{user.email.split("@")[0]}</span>
+                </td>
+                <td>{new Date(user.createdAt).toLocaleDateString("ru-RU")}</td>
+                <td>
+                  <Dropdown
+                    items={itemsForDropdown}
+                    onClick={(label) => handlerActionUser(label, user.id)}
+                  />
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <Pagination
+        currentPage={currentPage}
+        itemsPerPage={itemsPerPage}
+        totalItems={totalItems}
+        onPageChange={setCurrentPage}
+        onItemsPerPageChange={setItemsPerPage}
+      />
+      {showConfirm && (
+        <Modal
+          className={styles.deleteUserModal}
+          title={"Delete user"}
+          onClose={() => setShowConfirm(false)}
+        >
+          <Typography className={styles.confirmText}>
+            {"Are you sure to delete user Ivan Ivanov?"}
+          </Typography>
+          <div className={styles.btnsContainer}>
+            <Button
+              className={styles.buttonNo}
+              onClick={() => setShowConfirm(false)}
+            >
+              No
+            </Button>
+            <Button
+              className={styles.buttonYes}
+              onClick={async () => {
+                if (userIdToDelete !== null) {
+                  await removeUserMutation({
+                    variables: { userId: userIdToDelete },
+                  });
+                }
+                setShowConfirm(false);
+              }}
+              variant={"outline"}
+            >
+              Yes
+            </Button>
+          </div>
+        </Modal>
+      )}
+    </div>
+  );
+};

@@ -1,0 +1,18 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  margin-top: 60px; /* Высота header */
+  margin-left: 220px; /* Ширина sidebar */
+  padding: 24px;
+  flex: 1;
+}
+
+@media (max-width: 768px) {
+  .main {
+    margin-left: 60px; /* Уменьшенная ширина sidebar на мобильных */
+  }
+} 
